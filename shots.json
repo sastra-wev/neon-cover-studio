@@ -1,1 +1,5 @@
-[{"exportSize":"wide","kind":"export","name":"1-cover.jpg","query":"?shot=cover&layout=classic5&grade=sunset&size=wide&photos=pier,boulevard&title=Neon%20Harbor&caption=One%20night%20in%20the%20neon%20city&stars=5","shownAt":"1280x720"},{"h":800,"kind":"editor","name":"2-editor.jpg","query":"?shot=editor&layout=classic5&grade=sunset&size=square&photos=pier,boulevard&title=Neon%20Harbor&caption=One%20night%20in%20the%20neon%20city&stars=5","w":1280},{"exportSize":"portrait","kind":"export","name":"3-cover.jpg","query":"?shot=cover&layout=classic5&grade=neon&size=portrait&photos=boulevard,pier&title=Boulevard%20Queen&caption=Neon%20nights%20never%20end&pos=top","shownAt":"1024x1280"},{"h":800,"kind":"editor","name":"4-editor.jpg","query":"?shot=editor&layout=duo&grade=duotone&size=portrait&photos=boulevard,pier&title=Pier%20Pressure&caption=Editing%20the%20caption%20live","w":1280}]
+[
+  { "name": "1-cover.jpg", "query": "?shot=cover&photo=pier&caption=Sunset%20Heist", "w": 1080, "h": 1080 },
+  { "name": "2-editor.jpg", "query": "?shot=editor&photo=boulevard&caption=Boulevard%20Queen", "w": 1280, "h": 720 },
+  { "name": "3-cover.jpg", "query": "?shot=cover&photo=boulevard&caption=Boulevard%20Queen", "w": 1080, "h": 1080 }
+]

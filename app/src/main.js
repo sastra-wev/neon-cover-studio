@@ -1,58 +1,51 @@
-// Neon Cover Studio — entry point. Wires the state, the editor and the canvas together, loads
-// the vendored Anton face before the first paint, and sets up the fixed ?shot= scenes the
-// screenshots are taken from. Everything runs locally; no request ever leaves the tab.
-
-import { createState, syncPanels, exportSizeOf } from './state.js';
-import { layoutOf } from './layouts.js';
+// Wires the page: pick a photo, type a caption, export the square cover as a PNG. A `?shot=` query sets up a fixed
+// scene for a screenshot instead (./shots.js).
 import { drawCover } from './cover.js';
-import { initEditor } from './ui.js';
-import { applyShot } from './shots.js';
-import { exportDataUrl, renderToCanvas } from './export.js';
+import { runShot } from './shots.js';
 
 const canvas = document.getElementById('cover');
-const state = createState();
-syncPanels(state, layoutOf(state.layoutId).slots.length);
+const caption = document.getElementById('caption');
+const status = document.getElementById('status');
+let photo = null;
 
-let editor = null;
 function redraw() {
-  drawCover(canvas, state, { selection: Boolean(editor) && !document.body.classList.contains('shot-cover') });
+  drawCover(canvas, photo, caption.value);
 }
 
-function fitCanvasToSize() {
-  const size = exportSizeOf(state);
-  canvas.width = size.width;
-  canvas.height = size.height;
+/** Loads an image from a URL, resolving to the image once it can be drawn. */
+export function loadImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = url;
+  });
 }
 
-// A handle for the screenshot scenes and the browser test: the app's real export, on demand.
-window.NeonCoverStudio = {
-  state,
-  redraw,
-  exportDataUrl: (sizeId) => exportDataUrl(state, sizeId ?? state.sizeId),
-  exportCanvas: (sizeId) => renderToCanvas(state, sizeId ?? state.sizeId),
-};
-
-const query = new URLSearchParams(location.search);
-try {
-  await document.fonts.load('100px Anton');
-  await document.fonts.ready;
-} catch { /* the fallback face still letters the cover */ }
-
-if (query.get('shot')) {
-  await applyShot(state, query);
-  fitCanvasToSize();
+document.getElementById('photo').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  photo = await loadImage(URL.createObjectURL(file));
   redraw();
-  // Editor scenes keep the controls in step with the scene the query described.
-  if (query.get('shot') === 'editor') {
-    editor = initEditor(state, canvas, redraw);
-    document.getElementById('titleInput').value = state.title;
-    document.getElementById('captionInput').value = state.caption;
-    editor.refresh();
+});
+caption.addEventListener('input', redraw);
+document.getElementById('export').addEventListener('click', () => {
+  canvas.toBlob((blob) => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'cover-1080x1080.png';
+    a.click();
+    status.textContent = 'Saved cover-1080x1080.png';
+  }, 'image/png');
+});
+
+const shot = new URLSearchParams(location.search).get('shot');
+if (shot) {
+  runShot(shot, new URLSearchParams(location.search), async (sample, text) => {
+    photo = await loadImage(sample);
+    caption.value = text;
     redraw();
-  }
-  requestAnimationFrame(() => requestAnimationFrame(() => { window.__shotReady = true; }));
+  });
 } else {
-  fitCanvasToSize();
-  editor = initEditor(state, canvas, redraw);
   redraw();
 }
