@@ -1,5 +1,6 @@
 [
-  { "name": "1-cover.jpg", "query": "?shot=cover&photo=pier&caption=Sunset%20Heist", "w": 1080, "h": 1080 },
-  { "name": "2-editor.jpg", "query": "?shot=editor&photo=boulevard&caption=Boulevard%20Queen", "w": 1280, "h": 720 },
-  { "name": "3-cover.jpg", "query": "?shot=cover&photo=boulevard&caption=Boulevard%20Queen", "w": 1080, "h": 1080 }
+  { "name": "1-cover.jpg", "query": "?shot=cover&layout=classic5&grade=sunset&title=Neon%20Harbor&caption=One%20city.%20Five%20stories.%20No%20brakes.", "w": 1080, "h": 1080 },
+  { "name": "2-editor.jpg", "query": "?shot=editor&layout=classic5&grade=sunset&title=Neon%20Harbor&caption=One%20city.%20Five%20stories.%20No%20brakes.", "w": 1280, "h": 800 },
+  { "name": "3-cover.jpg", "query": "?shot=cover&layout=hero&grade=neon&title=Midnight%20Boulevard&caption=Neon%20rain%20on%20chrome&pos=top", "w": 1080, "h": 1080 },
+  { "name": "4-editor.jpg", "query": "?shot=editor&layout=wide3&grade=duotone&title=Pier%20Pressure&caption=Editing%20the%20caption%20live", "w": 1280, "h": 800 }
 ]
