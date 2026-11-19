@@ -3,21 +3,84 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<meta name="description" content="Neon Cover Studio — turn your own photos into multi-panel, GTA-style cover art and export a PNG. Fully offline: your photos never leave your machine.">
+<title>Neon Cover Studio — cover art maker</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
-  </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
-</main>
+<div class="app">
+  <aside class="panel" id="panel">
+    <header>
+      <h1>Neon Cover Studio</h1>
+      <p class="tag">Your photos → multi-panel cover art → PNG. All on this machine, nothing uploads.</p>
+    </header>
+
+    <section>
+      <h2>1 · Photos</h2>
+      <label class="file-btn">Add photos<input id="photoInput" type="file" accept="image/*" multiple></label>
+      <button id="sampleBtn" type="button" class="ghost">Load sample photos</button>
+      <div id="thumbs" class="thumbs"></div>
+      <p id="trayHint" class="hint"></p>
+      <label class="check"><input id="spanToggle" type="checkbox"> One photo spans all panels</label>
+    </section>
+
+    <section>
+      <h2>2 · Layout</h2>
+      <div id="layoutBar" class="chips"></div>
+    </section>
+
+    <section>
+      <h2>3 · Panel</h2>
+      <p id="panelName" class="hint"></p>
+      <label>Zoom <input id="zoomRange" type="range" min="0.2" max="4" step="0.01" value="1"></label>
+      <div class="row">
+        <button id="fitFill" type="button" class="chip on">Fill panel</button>
+        <button id="fitFit" type="button" class="chip">Fit whole photo</button>
+        <button id="resetPanel" type="button" class="chip">Reset</button>
+      </div>
+      <p class="hint">Tip: drag a photo right on the cover, scroll to zoom it.</p>
+    </section>
+
+    <section>
+      <h2>4 · Colour grade</h2>
+      <div id="gradeBar" class="chips"></div>
+    </section>
+
+    <section>
+      <h2>5 · Lettering</h2>
+      <label>Title <input id="titleInput" type="text" maxlength="42" value="NEON HARBOR"></label>
+      <label>Caption <input id="captionInput" type="text" maxlength="60" value="One night in the neon city"></label>
+      <div class="row">
+        <label class="grow">Title colour <input id="titleColor" type="color" value="#ffffff"></label>
+        <label class="grow">Caption colour <input id="captionColor" type="color" value="#ffd166"></label>
+      </div>
+      <label>Title size <input id="titleSize" type="range" min="0.6" max="1.5" step="0.02" value="1"></label>
+      <label>Position
+        <select id="titlePos">
+          <option value="bottom" selected>Bottom</option>
+          <option value="top">Top</option>
+          <option value="middle">Middle</option>
+        </select>
+      </label>
+      <label>Heat stars <span id="starsLabel">0</span> <input id="starsRange" type="range" min="0" max="5" step="1" value="0"></label>
+    </section>
+
+    <section>
+      <h2>6 · Export PNG</h2>
+      <div id="sizeBar" class="chips"></div>
+      <button id="exportBtn" type="button" class="export">Download PNG</button>
+      <p id="status" class="hint" role="status"></p>
+    </section>
+  </aside>
+
+  <main class="stage" id="stage">
+    <div class="canvas-wrap">
+      <canvas id="cover" width="1080" height="1080" aria-label="Your cover, live preview"></canvas>
+    </div>
+    <p class="stage-hint">Drop photos anywhere here · click a panel to select it · drag to move its photo · scroll to zoom</p>
+  </main>
+</div>
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>
